@@ -1,0 +1,323 @@
+/* Single dark look on purpose: the neon only works on black. --glow comes from Sanity (Site settings). */
+.site {
+  --ground: #050405;
+  --glow: #e9b14c;
+  --glow-hot: color-mix(in srgb, var(--glow) 55%, #fff4d6);
+  --ink: #f6ead2;
+  --ink-dim: #a8987c;
+  --font-body: var(--font-josefin), "Futura", "Trebuchet MS", sans-serif;
+  --font-display: var(--font-limelight), "Didot", Georgia, serif;
+
+  min-height: 100%;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-body);
+  color-scheme: dark;
+  overflow-x: hidden;
+}
+body:has(.site) {
+  background: #050405;
+}
+
+/* ---------- Backdrop logo ---------- */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 45%, color-mix(in srgb, var(--glow) 10%, transparent), transparent 70%),
+    var(--ground);
+}
+.sign {
+  position: relative;
+  width: min(96vw, 74vh);
+  aspect-ratio: 394 / 470;
+  max-width: 100%;
+  transition: opacity 900ms ease, transform 900ms ease;
+}
+.sign img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  -webkit-mask-image: radial-gradient(ellipse 62% 60% at 50% 52%, #000 72%, transparent 100%);
+  mask-image: radial-gradient(ellipse 62% 60% at 50% 52%, #000 72%, transparent 100%);
+  filter: brightness(1.05) drop-shadow(0 0 6px color-mix(in srgb, var(--glow) 55%, transparent))
+    drop-shadow(0 0 22px color-mix(in srgb, var(--glow) 35%, transparent));
+  animation: hum 5s infinite;
+}
+/* Warm halo over the Edison bulb on this logo. Delete this block if the logo changes. */
+.bulb {
+  position: absolute;
+  left: 80.7%;
+  top: 19%;
+  width: 34%;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 170, 90, 0.55), rgba(255, 138, 61, 0.15) 40%, transparent 70%);
+  mix-blend-mode: screen;
+  animation: bulb 3.2s ease-in-out infinite;
+}
+/* At rest he sits back behind the buttons */
+.phase-done .sign {
+  opacity: 0.42;
+  transform: scale(1.04);
+}
+.menu-page .sign {
+  opacity: 0.18;
+}
+
+@keyframes hum {
+  0%, 41%, 43%, 77%, 79.5%, 100% { opacity: 1; }
+  42% { opacity: 0.82; }
+  78% { opacity: 0.9; }
+}
+@keyframes bulb {
+  0%, 100% { opacity: 0.75; }
+  50% { opacity: 1; }
+}
+
+.phase-intro .sign img {
+  filter: brightness(0.12) saturate(0.4);
+  transform: scale(0.94);
+  animation: none;
+}
+.phase-intro .bulb {
+  opacity: 0;
+  animation: none;
+}
+.phase-igniting .sign img {
+  animation: ignite 900ms steps(1, end) forwards, settle 900ms ease-out forwards;
+}
+.phase-igniting .bulb {
+  animation: bulbOn 900ms steps(1, end) forwards;
+}
+@keyframes ignite {
+  0% { filter: brightness(0.12) saturate(0.4); }
+  12% { filter: brightness(1.1) drop-shadow(0 0 14px color-mix(in srgb, var(--glow) 60%, transparent)); }
+  20% { filter: brightness(0.2) saturate(0.5); }
+  34% { filter: brightness(0.9) drop-shadow(0 0 10px color-mix(in srgb, var(--glow) 50%, transparent)); }
+  42% { filter: brightness(0.25) saturate(0.6); }
+  60% { filter: brightness(1.15) drop-shadow(0 0 8px color-mix(in srgb, var(--glow) 60%, transparent)) drop-shadow(0 0 30px color-mix(in srgb, var(--glow) 40%, transparent)); }
+  100% { filter: brightness(1.05) drop-shadow(0 0 6px color-mix(in srgb, var(--glow) 55%, transparent)) drop-shadow(0 0 22px color-mix(in srgb, var(--glow) 35%, transparent)); }
+}
+@keyframes settle {
+  from { transform: scale(0.94); }
+  to { transform: scale(1); }
+}
+@keyframes bulbOn {
+  0% { opacity: 0; }
+  14% { opacity: 1; }
+  22% { opacity: 0; }
+  58% { opacity: 1; }
+  100% { opacity: 0.85; }
+}
+
+/* ---------- Buttons ---------- */
+.page {
+  position: relative;
+  z-index: 1;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding-top: calc(32px + env(safe-area-inset-top, 0px));
+  padding-bottom: calc(48px + env(safe-area-inset-bottom, 0px));
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: min(100%, 360px);
+  display: grid;
+  gap: 12px;
+}
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 12px 18px;
+  border: 1.5px solid var(--glow);
+  border-radius: 4px;
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-align: center;
+  text-shadow: 0 0 8px color-mix(in srgb, var(--glow-hot) 45%, transparent);
+  background: rgba(8, 6, 6, 0.62);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--glow) 30%, transparent), inset 0 0 12px color-mix(in srgb, var(--glow) 14%, transparent);
+  transition: box-shadow 0.2s, background 0.2s, transform 0.15s;
+}
+.btn.featured {
+  border-color: var(--glow-hot);
+  color: var(--glow-hot);
+}
+.btn:hover,
+.btn:focus-visible {
+  outline: none;
+  background: color-mix(in srgb, var(--glow) 12%, rgba(8, 6, 6, 0.75));
+  box-shadow: 0 0 20px color-mix(in srgb, var(--glow) 60%, transparent), inset 0 0 16px color-mix(in srgb, var(--glow) 28%, transparent);
+}
+.btn:active {
+  transform: scale(0.98);
+}
+.links li {
+  animation: pour 520ms cubic-bezier(0.2, 0.9, 0.3, 1.25) both;
+  animation-delay: calc(var(--i) * 90ms);
+}
+.phase-intro .links li,
+.phase-igniting .links li {
+  animation: none;
+  opacity: 0;
+  transform: translateY(-18px);
+}
+@keyframes pour {
+  from { opacity: 0; transform: translateY(-18px) scaleY(0.85); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ---------- Smoke ---------- */
+.smoke {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  pointer-events: none;
+}
+.skip-hint {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  z-index: 6;
+  text-align: center;
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(246, 234, 210, 0.55);
+  pointer-events: none;
+  transition: opacity 0.4s;
+}
+.phase-done .skip-hint {
+  opacity: 0;
+}
+.phase-intro,
+.phase-igniting {
+  cursor: pointer;
+}
+
+/* ---------- Menu ---------- */
+.page-top {
+  justify-content: flex-start;
+  align-items: stretch;
+  width: min(100%, 560px);
+  margin: 0 auto;
+  gap: 28px;
+}
+.back {
+  align-self: flex-start;
+  color: var(--glow);
+  text-decoration: none;
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.back:focus-visible {
+  outline: 2px solid var(--glow-hot);
+  outline-offset: 4px;
+}
+.menu-title,
+.menu-section h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: var(--glow-hot);
+  text-shadow: 0 0 4px var(--glow), 0 0 16px color-mix(in srgb, var(--glow) 55%, transparent);
+  text-wrap: balance;
+}
+.menu-title {
+  font-size: clamp(2rem, 9vw, 2.8rem);
+  text-align: center;
+}
+.menu-section {
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+  border: 1px solid color-mix(in srgb, var(--glow) 45%, transparent);
+  border-radius: 4px;
+  background: rgba(8, 6, 6, 0.7);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+.menu-section h2 {
+  font-size: 1.5rem;
+}
+.menu-note {
+  margin: -4px 0 4px;
+  font-size: 0.8rem;
+  color: var(--ink-dim);
+  letter-spacing: 0.04em;
+}
+.menu-section ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
+.menu-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.menu-name {
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  min-width: 0;
+}
+.menu-dots {
+  flex: 1;
+  border-bottom: 1px dotted color-mix(in srgb, var(--glow) 50%, transparent);
+  translate: 0 -4px;
+  min-width: 16px;
+}
+.menu-price {
+  font-variant-numeric: tabular-nums;
+  color: var(--glow-hot);
+}
+.menu-desc {
+  margin: 4px 0 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--ink-dim);
+}
+.menu-empty {
+  text-align: center;
+  color: var(--ink-dim);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sign,
+  .sign img,
+  .bulb,
+  .links li {
+    animation: none !important;
+    transition: none !important;
+  }
+}
