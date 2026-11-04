@@ -98,12 +98,19 @@ export function NeonLanding({
   );
 }
 
+const PAGE_PATHS: Record<string, string> = {
+  menu: "/menu",
+  food: "/food",
+  drinks: "/drinks",
+  promotions: "/promotions",
+};
+
 function LinkButtonView({ link }: { link: LinkButton }) {
   const className = link.featured ? "btn featured" : "btn";
 
-  if (link.kind === "menu") {
+  if (link.kind in PAGE_PATHS) {
     return (
-      <Link className={className} href="/menu">
+      <Link className={className} href={PAGE_PATHS[link.kind]}>
         {link.label}
       </Link>
     );

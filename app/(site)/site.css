@@ -229,8 +229,12 @@ body:has(.site) {
   margin: 0 auto;
   gap: 28px;
 }
+.subnav {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
 .back {
-  align-self: flex-start;
   color: var(--glow);
   text-decoration: none;
   font-size: 0.8rem;
@@ -307,6 +311,56 @@ body:has(.site) {
   line-height: 1.45;
   color: var(--ink-dim);
 }
+/* ---------- Promotions ---------- */
+.promos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 18px;
+}
+.promo {
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--glow) 55%, transparent);
+  border-radius: 4px;
+  background: rgba(8, 6, 6, 0.72);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--glow) 22%, transparent);
+}
+.promo-img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 25 / 14;
+  object-fit: cover;
+  max-width: 100%;
+}
+.promo-body {
+  display: grid;
+  gap: 6px;
+  padding: 18px;
+}
+.promo h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.6rem;
+  color: var(--glow-hot);
+  text-shadow: 0 0 4px var(--glow), 0 0 16px color-mix(in srgb, var(--glow) 55%, transparent);
+  text-wrap: balance;
+}
+.promo-when {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.promo .menu-desc {
+  margin: 4px 0 0;
+}
+
 .menu-empty {
   text-align: center;
   color: var(--ink-dim);

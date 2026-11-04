@@ -2,7 +2,7 @@ import { revalidateTag } from "next/cache";
 import { type NextRequest, NextResponse } from "next/server";
 import { parseBody } from "next-sanity/webhook";
 
-const TAGS = new Set(["siteSettings", "menuCategory", "menuItem"]);
+const TAGS = new Set(["siteSettings", "menuCategory", "menuItem", "promotion"]);
 
 // Sanity calls this when content is published (see README → "Make edits go live").
 export async function POST(req: NextRequest) {

@@ -1,47 +1,33 @@
 import Link from "next/link";
 import { Backdrop } from "@/components/Backdrop";
 import { logoUrl } from "@/components/logo";
-import { getMenu, getSettings } from "@/sanity/lib/fetch";
+import { getSettings } from "@/sanity/lib/fetch";
 
-export const metadata = { title: "Food & Drink" };
+export const metadata = { title: "Menu" };
 
-const price = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 0, maximumFractionDigits: 2 });
-
-export default async function MenuPage() {
-  const [settings, sections] = await Promise.all([getSettings(), getMenu()]);
-  const visible = sections.filter((s) => s.items.length > 0);
-
+// Picker page, so old "Food & Drink" buttons and printed links to /menu keep working.
+export default async function MenuPicker() {
+  const settings = await getSettings();
   return (
-    <div className="landing phase-done menu-page">
+    <div className="landing phase-done">
       <Backdrop logoUrl={logoUrl(settings)} alt="" />
-      <main className="page page-top">
+      <main className="page">
+        <h1 className="sr-only">Menu</h1>
+        <ul className="links">
+          <li style={{ "--i": 0 } as React.CSSProperties}>
+            <Link className="btn" href="/food">
+              Food
+            </Link>
+          </li>
+          <li style={{ "--i": 1 } as React.CSSProperties}>
+            <Link className="btn" href="/drinks">
+              Drinks
+            </Link>
+          </li>
+        </ul>
         <Link href="/" className="back">
           ← Back
         </Link>
-        <h1 className="menu-title">Food &amp; Drink</h1>
-
-        {visible.length === 0 ? (
-          <p className="menu-empty">The menu is being updated. Check back soon.</p>
-        ) : (
-          visible.map((section) => (
-            <section key={section._id} className="menu-section">
-              <h2>{section.title}</h2>
-              {section.note ? <p className="menu-note">{section.note}</p> : null}
-              <ul>
-                {section.items.map((item) => (
-                  <li key={item._id} className="menu-item">
-                    <div className="menu-row">
-                      <span className="menu-name">{item.name}</span>
-                      <span className="menu-dots" aria-hidden="true" />
-                      {typeof item.price === "number" ? <span className="menu-price">{price.format(item.price)}</span> : null}
-                    </div>
-                    {item.description ? <p className="menu-desc">{item.description}</p> : null}
-                  </li>
-                ))}
-              </ul>
-            </section>
-          ))
-        )}
       </main>
     </div>
   );

@@ -1,11 +1,12 @@
 # Smoke & Neon Card
 
-QR-code landing page for the bar. Smoke clears, the logo flickers on like a neon sign, then it dims behind a stack of buttons. A **Food & Drink** button opens an editable menu at `/menu`.
+QR-code landing page for the bar. Smoke clears, the logo flickers on like a neon sign, then it dims behind a stack of buttons. Buttons can open the editable **Food** (`/food`), **Drinks** (`/drinks`) and **Promotions** (`/promotions`) pages. `/menu` is a small Food-or-Drinks picker.
 
 Everything the owner edits lives in Sanity, embedded at **`/studio`**. He can edit from his phone.
 
-- **Site settings**: business name, logo, glow color, intro on/off, and the buttons (text, link, email, or menu; drag to reorder)
-- **Menu sections**: Cocktails, Small Plates, and so on. Drag to reorder.
+- **Site settings**: business name, logo, glow color, intro on/off, and the buttons (website, email, or one of the site's pages; drag to reorder)
+- **Promotions**: headline, when, details, optional picture, and optional start/end dates. They show and hide themselves by date (checked hourly, Michigan time).
+- **Menu sections**: Cocktails, Small Plates, and so on, each marked Food or Drinks. Drag to reorder.
 - **Menu items**: name, description, price, and an **Available** switch to 86 something without deleting it
 
 Until Sanity is hooked up, the site runs on sample content (`sanity/lib/sample.ts`).
@@ -40,7 +41,7 @@ Pages are cached and only rebuild when Sanity says something changed. In Sanity,
 - **URL**: `https://YOUR-DOMAIN/api/revalidate`
 - **Dataset**: `production`
 - **Trigger on**: Create, Update, Delete
-- **Filter**: `_type in ["siteSettings", "menuCategory", "menuItem"]`
+- **Filter**: `_type in ["siteSettings", "promotion", "menuCategory", "menuItem"]`
 - **Projection**: `{_type}`
 - **Secret**: the same value as `SANITY_REVALIDATE_SECRET`
 
@@ -55,7 +56,9 @@ In sanity.io/manage → **Members**, invite him as an **Editor**. He opens `http
 | Path | What |
 | --- | --- |
 | `app/(site)/page.tsx` | Landing page |
-| `app/(site)/menu/page.tsx` | Menu page |
+| `components/MenuView.tsx` | Food and Drinks pages (`app/(site)/food`, `app/(site)/drinks`) |
+| `app/(site)/promotions/page.tsx` | Promotions page |
+| `app/(site)/menu/page.tsx` | Food-or-Drinks picker |
 | `app/(site)/site.css` | All the neon, smoke and menu styles |
 | `components/NeonLanding.tsx` | Intro timing, tap to skip, once-per-visit |
 | `components/smoke.ts` | Canvas smoke |

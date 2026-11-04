@@ -1,5 +1,12 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+const PAGE_LABELS: Record<string, string> = {
+  food: "Food menu",
+  drinks: "Drinks menu",
+  promotions: "Promotions",
+  menu: "Food or drinks picker",
+};
+
 export const siteSettings = defineType({
   name: "siteSettings",
   title: "Site settings",
@@ -58,7 +65,10 @@ export const siteSettings = defineType({
                 list: [
                   { title: "Opens a website", value: "url" },
                   { title: "Starts an email", value: "email" },
-                  { title: "Opens the food & drink menu", value: "menu" },
+                  { title: "Opens the food menu", value: "food" },
+                  { title: "Opens the drinks menu", value: "drinks" },
+                  { title: "Opens promotions", value: "promotions" },
+                  { title: "Opens a page to pick food or drinks", value: "menu" },
                 ],
                 layout: "radio",
               },
@@ -107,7 +117,7 @@ export const siteSettings = defineType({
             select: { title: "label", kind: "kind", url: "url", email: "email", featured: "featured" },
             prepare: ({ title, kind, url, email, featured }) => ({
               title: `${title ?? "Untitled"}${featured ? " ★" : ""}`,
-              subtitle: kind === "email" ? email : kind === "menu" ? "Food & drink menu" : url,
+              subtitle: kind === "email" ? email : kind === "url" ? url : PAGE_LABELS[kind as string] ?? "",
             }),
           },
         }),

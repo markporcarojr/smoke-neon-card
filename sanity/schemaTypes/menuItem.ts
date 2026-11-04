@@ -43,10 +43,10 @@ export const menuItem = defineType({
     }),
   ],
   preview: {
-    select: { title: "name", price: "price", available: "available", section: "category.title" },
-    prepare: ({ title, price, available, section }) => ({
+    select: { title: "name", price: "price", available: "available", section: "category.title", menu: "category.menu" },
+    prepare: ({ title, price, available, section, menu }) => ({
       title: `${available === false ? "(86'd) " : ""}${title ?? "Untitled"}`,
-      subtitle: [section, typeof price === "number" ? `$${price}` : null].filter(Boolean).join(" · "),
+      subtitle: [menu === "drinks" ? "Drinks" : menu === "food" ? "Food" : null, section, typeof price === "number" ? `$${price}` : null].filter(Boolean).join(" · "),
     }),
   },
 });
